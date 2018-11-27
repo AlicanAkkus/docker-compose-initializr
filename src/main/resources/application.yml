@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: docker-compose-initializr
+
+docker:
+  compose:
+    versions:
+      - '3.0'
+      - '3.1'
+      - '3.5'
+      - '3.6'
+    services:
+      -
+        name: 'redis'
+        image: 'redis:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '6379:6379'
+      -
+        name: 'mongo'
+        image: 'mongo:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '27017:27017'
+        environments:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+      -
+        name: 'postgres'
+        image: 'postgres:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '5432:5432'

@@ -1,0 +1,15 @@
+---
+version: "3.0"
+services:
+  redis-service:
+    image: "redis"
+    restart: "on-failure"
+    ports:
+      - "6379:6379"
+    container_name: "my_redis"
+  redis-service-2:
+    image: "redis"
+    restart: "on-failure"
+    ports:
+      - "6378:6379"
+    container_name: "my_redis-2"
