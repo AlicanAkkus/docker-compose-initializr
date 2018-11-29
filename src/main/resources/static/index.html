@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Docker Compose Initializr</title>
+    <link rel="icon" type="image/png" href="images/docker.png">
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/vuetify.css">
@@ -56,10 +57,11 @@
                                      :fetch-suggestions="querySearch"
                                      placeholder="Redis, Mongo, Kafka ..."
                                      @select="handleSelect">
+                        <i class="el-icon-edit el-input__icon" slot="suffix"></i>
                     </el-autocomplete>
                 </div>
                 <div class="p-2">
-                    <el-button type="success" icon="el-icon-download" @click="createDockerComposeFile" round>
+                    <el-button type="success" icon="el-icon-download" @click="createDockerComposeFile" :loading="createProgressDoesItContinue" round>
                         Generate
                     </el-button>
                 </div>
@@ -74,6 +76,9 @@
         <div class="col-sm-6">
             <div class="d-flex justify-content-center">
                 <div class="p-2">
+                    <el-badge :value="selectedServices.length" v-if="selectedServices.length > 0" type="info">
+                        <el-button size="small">Selected Services</el-button>
+                    </el-badge>
                     <el-tag style="margin: 2px;" v-for="service in selectedServices" :key="service" type="success" @close="deleteService(service)" closable>
                         {{service}}
                     </el-tag>

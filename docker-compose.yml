@@ -1,14 +1,15 @@
 ---
+version: "3.6"
 services:
-  mongo:
-    image: "mongo:latest"
+  mysql:
+    image: "mysql:latest"
+    command: "--default-authentication-plugin=mysql_native_password"
     restart: "on-failure"
     ports:
-      - "27017:27017"
+      - "3306:3306"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "root"
-      MONGO_INITDB_ROOT_PASSWORD: "example"
-    container_name: "mongo"
+      MYSQL_ROOT_PASSWORD: "password"
+    container_name: "mysql"
   redis:
     image: "redis:latest"
     restart: "on-failure"
@@ -16,4 +17,3 @@ services:
       - "6379:6379"
     environment: {}
     container_name: "redis"
-version: "3.0"

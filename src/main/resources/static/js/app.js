@@ -4,6 +4,7 @@ window.onload = function (ev) {
         data: {
             feedback: '',
             serviceInput: '',
+            createProgressDoesItContinue: false,
             selectedServices: [],
             version: '',
             versions: [],
@@ -24,6 +25,7 @@ window.onload = function (ev) {
             },
             createDockerComposeFile: function () {
                 if(this.checkVersionIsSelectedAndLeastOneServiceSelected()){
+                    this.createProgressDoesItContinue = true;
                     this.$http.post('/api/v1/docker-compose/build', { version: this.version, services: this.selectedServices })
                         .then(function (response) {
                             var headers = response.headers;
@@ -35,8 +37,16 @@ window.onload = function (ev) {
 
                             this.selectedServices = [];
                             this.version = '';
+                            this.$notify({
+                                title: 'Success',
+                                message: 'docker-compose.yml file successfully created :)',
+                                type: 'success',
+                                position: 'bottom-right'
+                            });
+                            this.createProgressDoesItContinue = false;
                         }, function (error) {
                             console.error(error);
+                            this.createProgressDoesItContinue = false;
                         }).bind(this);
                 }
             },
