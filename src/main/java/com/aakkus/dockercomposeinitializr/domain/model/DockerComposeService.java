@@ -13,6 +13,7 @@ public class DockerComposeService {
     @JsonProperty("container_name")
     private String containerName;
     private String image;
+    private String command;
     private String restart;
     private String[] ports;
     private Map<String, String> environment;
@@ -24,6 +25,7 @@ public class DockerComposeService {
         this.serviceName = builder.serviceName;
         this.containerName = builder.containerName;
         this.image = builder.image;
+        this.command = builder.command;
         this.restart = builder.restart;
         this.ports = builder.ports;
         this.environment = builder.environment;
@@ -57,6 +59,14 @@ public class DockerComposeService {
         this.image = image;
     }
 
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
     public String getRestart() {
         return restart;
     }
@@ -85,6 +95,7 @@ public class DockerComposeService {
         private String serviceName;
         private String containerName;
         private String image;
+        private String command;
         private String restart;
         private String[] ports;
         private Map<String, String> environment;
@@ -108,6 +119,12 @@ public class DockerComposeService {
 
         public Builder image(String image) {
             this.image = image;
+            return this;
+        }
+
+
+        public Builder command(String command) {
+            this.command = command;
             return this;
         }
 

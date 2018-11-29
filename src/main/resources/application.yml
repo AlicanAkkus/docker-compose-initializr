@@ -5,10 +5,21 @@ spring:
 docker:
   compose:
     versions:
-      - '3.0'
-      - '3.1'
-      - '3.5'
-      - '3.6'
+      -
+        version: '3.0'
+        name: 'Version 3.0 for Docker 1.13.0+'
+      -
+        version: '3.1'
+        name: 'Version 3.1 for Docker 1.13.1+'
+      -
+        version: '3.5'
+        name: 'Version 3.5 for Docker 17.12.0+'
+      -
+        version: '3.6'
+        name: 'Version 3.6 for Docker 18.02.0+'
+      -
+        version: '3.7'
+        name: 'Version 3.7 for Docker 18.06.0+'
     services:
       -
         name: 'redis'
@@ -24,10 +35,269 @@ docker:
           - '27017:27017'
         environments:
           MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
+          MONGO_INITDB_ROOT_PASSWORD: password
       -
         name: 'postgres'
         image: 'postgres:latest'
         restartCondition: 'on-failure'
         ports:
           - '5432:5432'
+        environments:
+          POSTGRES_PASSWORD: password
+      -
+        name: 'nginx'
+        image: 'nginx:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:80'
+        environments:
+          NGINX_PORT: 80
+      -
+        name: 'mysql'
+        command: --default-authentication-plugin=mysql_native_password
+        image: 'mysql:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '3306:3306'
+        environments:
+          MYSQL_ROOT_PASSWORD: password
+      -
+        name: 'mariadb'
+        image: 'mariadb:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '3306:3306'
+        environments:
+          MYSQL_ROOT_PASSWORD: password
+      -
+        name: 'memcached'
+        image: 'memcached:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '11211:11211'
+      -
+        name: 'registry'
+        image: 'registry:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '5000:5000'
+      -
+        name: 'rabbitmq'
+        image: 'rabbitmq:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '5672:5672'
+        environments:
+          RABBITMQ_DEFAULT_USER: user
+          RABBITMQ_DEFAULT_PASS: password
+      -
+        name: 'rabbitmq management'
+        image: 'rabbitmq:3-management'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:15672'
+      -
+        name: 'wordpress'
+        image: 'wordpress:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:80'
+        environment:
+          WORDPRESS_DB_HOST: db
+          WORDPRESS_DB_USER: user
+          WORDPRESS_DB_PASSWORD: password
+          WORDPRESS_DB_NAME: name
+      -
+        name: 'elasticsearch'
+        image: 'elasticsearch:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '9200:9200'
+          - '9300:9300'
+        environment:
+          DISCOVERY_TYPE: single-node
+      -
+        name: 'influxdb'
+        image: 'influxdb:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8086:8086'
+      -
+        name: 'tomcat'
+        image: 'tomcat:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8888:8080'
+      -
+        name: 'jenkins'
+        image: 'jenkins:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:8080'
+          - '50000:50000'
+      -
+        name: 'ghost'
+        image: 'ghost:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '2368:2368'
+      -
+        name: 'ghost'
+        image: 'ghost:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '2368:2368'
+      -
+        name: 'kibana'
+        image: 'kibana:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '5601:5601'
+      -
+        name: 'drupal'
+        image: 'drupal:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:80'
+      -
+        name: 'cassandra'
+        image: 'cassandra:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '7000:7000'
+          - '7001:7001'
+          - '7199:7199'
+          - '9042:9042'
+          - '9160:9160'
+      -
+        name: 'sonarqube'
+        image: 'sonarqube:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '9000:9000'
+          - '9092:9092'
+          - '7199:7199'
+          - '9042:9042'
+          - '9160:9160'
+        environment:
+          SONARQUBE_JDBC_USERNAME: sonar
+          SONARQUBE_JDBC_PASSWORD: sonar
+          SONARQUBE_JDBC_URL: jdbc:postgresql://localhost/sonar
+      -
+        name: 'vault'
+        image: 'vault:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8200:8200'
+        environment:
+          VAULT_ADDR: http://127.0.0.1:8200
+      -
+        name: 'neo4j'
+        image: 'neo4j:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '7474:7474'
+          - '7687:7687'
+      -
+        name: 'owncloud'
+        image: 'owncloud:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '80:80'
+      -
+        name: 'solr'
+        image: 'solr:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8983:8983'
+      -
+        name: 'rethinkdb'
+        image: 'rethinkdb:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '28015:28015'
+          - '29015:29015'
+          - '8080:8080'
+      -
+        name: 'chronograf'
+        image: 'chronograf:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8888:8888'
+      -
+        name: 'zookeeper'
+        image: 'zookeeper:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '2181:2181'
+          - '2888:2888'
+          - '3888:3888'
+      -
+        name: 'couchdb'
+        image: 'couchdb:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '5984:5984'
+      -
+        name: 'joomla'
+        image: 'joomla:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:80'
+        environment:
+          JOOMLA_DB_HOST: joomladb
+          JOOMLA_DB_PASSWORD: password
+      -
+        name: 'adminer'
+        image: 'adminer:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:8080'
+      -
+        name: 'jetty'
+        image: 'jetty:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:8080'
+          - '8443:8443'
+      -
+        name: 'redmine'
+        image: 'redmine:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:3000'
+      -
+        name: 'couchbase'
+        image: 'couchbase:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8091-8094:8091-8094'
+          - '11210:11210'
+      -
+        name: 'kapacitor'
+        image: 'kapacitor:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '9092:9092'
+      -
+        name: 'crate'
+        image: 'crate:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '4200:4200'
+      -
+        name: 'odoo'
+        image: 'odoo:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8069:8069'
+        environment:
+          HOST: odoodb
+          USER: odoo
+          PASSWORD: password
+      -
+        name: 'arangodb'
+        image: 'arangodb:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8529:8529'

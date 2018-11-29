@@ -5,10 +5,11 @@ import java.util.Map;
 public class DockerComposeServiceDefinition {
 
     private String name;
+    private String command;
     private String image;
     private String restartCondition;
     private String[] ports;
-    private Map<String, String> environments;
+    private Map<String, String> environments = Map.of();
 
     public String getName() {
         return name;
@@ -16,6 +17,14 @@ public class DockerComposeServiceDefinition {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
     }
 
     public String getImage() {

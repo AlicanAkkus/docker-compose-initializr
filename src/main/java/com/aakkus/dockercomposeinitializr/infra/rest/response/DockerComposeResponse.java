@@ -1,57 +1,36 @@
 package com.aakkus.dockercomposeinitializr.infra.rest.response;
 
+import com.aakkus.dockercomposeinitializr.infra.rest.model.DockerComposeServiceDefinitionModel;
+import com.aakkus.dockercomposeinitializr.infra.rest.model.DockerComposeVersionDefinitionModel;
+
+import java.util.List;
+
 public class DockerComposeResponse {
 
-    private String version;
-    private String composeFileContent;
+    private List<DockerComposeVersionDefinitionModel> versions;
+    private List<DockerComposeServiceDefinitionModel> services;
 
     public DockerComposeResponse() {
     }
 
-    private DockerComposeResponse(Builder builder) {
-        this.version = builder.version;
-        this.composeFileContent = builder.composeFileContent;
+    public DockerComposeResponse(List<DockerComposeVersionDefinitionModel> versions, List<DockerComposeServiceDefinitionModel> services) {
+        this.versions = versions;
+        this.services = services;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public List<DockerComposeVersionDefinitionModel> getVersions() {
+        return versions;
     }
 
-    public String getVersion() {
-        return version;
+    public void setVersions(List<DockerComposeVersionDefinitionModel> versions) {
+        this.versions = versions;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public List<DockerComposeServiceDefinitionModel> getServices() {
+        return services;
     }
 
-    public String getComposeFileContent() {
-        return composeFileContent;
-    }
-
-    public void setComposeFileContent(String composeFileContent) {
-        this.composeFileContent = composeFileContent;
-    }
-
-    public static final class Builder {
-        private String version;
-        private String composeFileContent;
-
-        private Builder() {
-        }
-
-        public DockerComposeResponse build() {
-            return new DockerComposeResponse(this);
-        }
-
-        public Builder version(String version) {
-            this.version = version;
-            return this;
-        }
-
-        public Builder composeFileContent(String composeFileContent) {
-            this.composeFileContent = composeFileContent;
-            return this;
-        }
+    public void setServices(List<DockerComposeServiceDefinitionModel> services) {
+        this.services = services;
     }
 }
