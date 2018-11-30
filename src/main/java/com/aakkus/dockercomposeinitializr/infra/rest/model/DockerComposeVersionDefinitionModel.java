@@ -31,7 +31,7 @@ public class DockerComposeVersionDefinitionModel {
         this.version = version;
     }
 
-    public static DockerComposeVersionDefinitionModel fromDefinition(DockerComposeVersionDefinition definition) {
+    public static DockerComposeVersionDefinitionModel toModel(DockerComposeVersionDefinition definition) {
         return new DockerComposeVersionDefinitionModel(definition.getName(), definition.getVersion());
     }
 }

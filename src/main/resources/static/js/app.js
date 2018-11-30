@@ -26,7 +26,7 @@ window.onload = function (ev) {
             createDockerComposeFile: function () {
                 if(this.checkVersionIsSelectedAndLeastOneServiceSelected()){
                     this.createProgressDoesItContinue = true;
-                    this.$http.post('/api/v1/docker-compose/build', { version: this.version, services: this.selectedServices })
+                    this.$http.post('/api/v1/docker-compose', { version: this.version, services: this.selectedServices })
                         .then(function (response) {
                             var headers = response.headers;
                             var blob = new Blob([response.data],{type:headers['content-type']});

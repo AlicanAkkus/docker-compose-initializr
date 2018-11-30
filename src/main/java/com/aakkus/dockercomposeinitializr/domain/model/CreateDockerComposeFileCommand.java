@@ -2,19 +2,17 @@ package com.aakkus.dockercomposeinitializr.domain.model;
 
 import java.util.List;
 
-public class DockerComposeFile {
+public class CreateDockerComposeFileCommand {
 
     private String version;
     private List<String> services;
-    private String composeFileContent;
 
-    public DockerComposeFile() {
+    public CreateDockerComposeFileCommand() {
     }
 
-    private DockerComposeFile(Builder builder) {
+    private CreateDockerComposeFileCommand(Builder builder) {
         this.version = builder.version;
         this.services = builder.services;
-        this.composeFileContent = builder.composeFileContent;
     }
 
     public static Builder builder() {
@@ -37,24 +35,15 @@ public class DockerComposeFile {
         this.services = services;
     }
 
-    public String getComposeFileContent() {
-        return composeFileContent;
-    }
-
-    public void setComposeFileContent(String composeFileContent) {
-        this.composeFileContent = composeFileContent;
-    }
-
     public static final class Builder {
         private String version;
         private List<String> services;
-        private String composeFileContent;
 
         private Builder() {
         }
 
-        public DockerComposeFile build() {
-            return new DockerComposeFile(this);
+        public CreateDockerComposeFileCommand build() {
+            return new CreateDockerComposeFileCommand(this);
         }
 
         public Builder version(String version) {
@@ -64,11 +53,6 @@ public class DockerComposeFile {
 
         public Builder services(List<String> services) {
             this.services = services;
-            return this;
-        }
-
-        public Builder composeFileContent(String composeFileContent) {
-            this.composeFileContent = composeFileContent;
             return this;
         }
     }

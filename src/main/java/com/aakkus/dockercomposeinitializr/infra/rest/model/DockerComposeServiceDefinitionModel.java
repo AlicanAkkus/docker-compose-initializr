@@ -15,7 +15,7 @@ public class DockerComposeServiceDefinitionModel {
         this.name = name;
     }
 
-    public static DockerComposeServiceDefinitionModel fromDefinition(DockerComposeServiceDefinition definition) {
+    public static DockerComposeServiceDefinitionModel toModel(DockerComposeServiceDefinition definition) {
         return new DockerComposeServiceDefinitionModel(definition.getName());
     }
 

@@ -1,5 +1,7 @@
 package com.aakkus.dockercomposeinitializr.infra.rest.request;
 
+import com.aakkus.dockercomposeinitializr.domain.model.CreateDockerComposeFileCommand;
+
 import java.util.List;
 
 public class CreateDockerComposeFileRequest {
@@ -21,5 +23,12 @@ public class CreateDockerComposeFileRequest {
 
     public void setServices(List<String> services) {
         this.services = services;
+    }
+
+    public CreateDockerComposeFileCommand toCommand() {
+        return CreateDockerComposeFileCommand.builder()
+                .services(services)
+                .version(version)
+                .build();
     }
 }

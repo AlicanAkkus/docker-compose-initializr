@@ -1,8 +1,7 @@
 package com.aakkus.dockercomposeinitializr.infra.rest;
 
 import com.aakkus.dockercomposeinitializr.domain.DockerComposeFileFacade;
-import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeServiceDefinition;
-import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeVersionDefinition;
+import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeFile;
 import com.aakkus.dockercomposeinitializr.infra.rest.model.DockerComposeServiceDefinitionModel;
 import com.aakkus.dockercomposeinitializr.infra.rest.model.DockerComposeVersionDefinitionModel;
 import com.aakkus.dockercomposeinitializr.infra.rest.request.CreateDockerComposeFileRequest;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -32,39 +30,30 @@ public class DockerComposeRestController {
         this.dockerComposeFileFacade = dockerComposeFileFacade;
     }
 
-    //TODO we will use this later for user create to own services.
-//    @PostMapping
-//    public ResponseEntity<Resource> create(@Valid @RequestBody CreateDockerComposeFileRequest createDockerComposeFileRequest) throws Exception {
-//        String composeFileContent = dockerComposeFileFacade.create(createDockerComposeFileRequest.toModel());
-//
-//        return buildResponse(composeFileContent);
-//    }
-
     @GetMapping
     public ResponseEntity<DockerComposeResponse> retrieveDockerComposeMetadata() {
         List<DockerComposeVersionDefinitionModel> versions = dockerComposeFileFacade.retrieveVersions()
                 .stream()
-                .map(DockerComposeVersionDefinitionModel::fromDefinition)
+                .map(DockerComposeVersionDefinitionModel::toModel)
                 .collect(Collectors.toList());
 
         List<DockerComposeServiceDefinitionModel> services = dockerComposeFileFacade.retrieveServices()
                 .stream()
-                .map(DockerComposeServiceDefinitionModel::fromDefinition)
+                .map(DockerComposeServiceDefinitionModel::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new DockerComposeResponse(versions, services));
     }
 
-    @PostMapping("/build")
-    public ResponseEntity<Resource> createOnlySpecificServices(@RequestBody CreateDockerComposeFileRequest createDockerComposeFileRequest) throws Exception {
-        String composeFileContent = dockerComposeFileFacade.createOnlySpecificServices(createDockerComposeFileRequest);
-
-        return buildResponse(composeFileContent);
+    @PostMapping
+    public ResponseEntity<Resource> createDockerComposeFile(@RequestBody CreateDockerComposeFileRequest createDockerComposeFileRequest) throws Exception {
+        DockerComposeFile dockerComposeFile = dockerComposeFileFacade.create(createDockerComposeFileRequest.toCommand());
+        return buildResponse(dockerComposeFile);
     }
 
-    private ResponseEntity<Resource> buildResponse(String composeFileContent) throws IOException {
+    private ResponseEntity<Resource> buildResponse(DockerComposeFile dockerComposeFile) throws IOException {
         File yml = File.createTempFile("docker-compose-", ".yml");
-        FileUtils.write(yml, composeFileContent, Charset.defaultCharset());
+        FileUtils.write(yml, dockerComposeFile.getComposeFileContent(), Charset.defaultCharset());
 
         Resource resource = new FileSystemResource(yml.getPath());
 
