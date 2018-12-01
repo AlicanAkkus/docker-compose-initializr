@@ -6,6 +6,8 @@ import com.aakkus.dockercomposeinitializr.infra.config.DockerComposeConfiguratio
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class DockerComposeFileAdapter implements DockerComposeFilePort {
 
+    private static final Logger logger = LoggerFactory.getLogger(DockerComposeFileAdapter.class);
+
     private final ObjectMapper objectMapper;
     private final DockerComposeConfiguration dockerComposeConfiguration;
 
@@ -27,7 +31,6 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
         this.dockerComposeConfiguration = dockerComposeConfiguration;
     }
 
-
     @Override
     public DockerComposeFile create(CreateDockerComposeFileCommand createDockerComposeFileCommand) {
         Map<String, DockerComposeService> serviceMap = createServiceMap(createDockerComposeFileCommand);
@@ -36,6 +39,7 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
         Map composeFileMap = Map.of("services", serviceMap, "version", versionDefinition.getVersion());
         String composeFileContent = createDockerComposeFileContent(composeFileMap);
 
+        logger.info("Docker compose file created successfully. Version: {} and Services: {}", versionDefinition.getVersion(), createDockerComposeFileCommand.getServices());
         return DockerComposeFile.builder()
                 .services(createDockerComposeFileCommand.getServices())
                 .version(versionDefinition.getVersion())

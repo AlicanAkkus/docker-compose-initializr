@@ -44,6 +44,8 @@ window.onload = function (ev) {
                                 position: 'bottom-right'
                             });
                             this.createProgressDoesItContinue = false;
+
+                            gtag('event', 'docker-compose-generate', { version: this.version, services: this.selectedServices });
                         }, function (error) {
                             console.error(error);
                             this.createProgressDoesItContinue = false;

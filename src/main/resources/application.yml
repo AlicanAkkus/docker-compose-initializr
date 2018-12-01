@@ -37,6 +37,12 @@ docker:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: password
       -
+        name: 'confluent/kafka'
+        image: 'confluent/kafka:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '9092:9092'
+      -
         name: 'postgres'
         image: 'postgres:latest'
         restartCondition: 'on-failure'

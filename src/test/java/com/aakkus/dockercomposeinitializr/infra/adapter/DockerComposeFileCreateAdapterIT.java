@@ -41,6 +41,26 @@ class DockerComposeFileCreateAdapterIT {
     }
 
     @Test
+    void should_createDockerComposeFile_evenServiceNotFoundInDefinitions() {
+        //given
+        CreateDockerComposeFileCommand createDockerComposeFileCommand = CreateDockerComposeFileCommand.builder()
+                .services(List.of("redis", "unknown-services"))
+                .version("3.0")
+                .build();
+
+        //when
+        DockerComposeFile dockerComposeFile = dockerComposeFilePort.create(createDockerComposeFileCommand);
+
+        //then
+        assertThat(dockerComposeFile)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("version", "3.0")
+                .hasFieldOrPropertyWithValue("services", List.of("redis", "unknown-services"))
+                .hasFieldOrProperty("composeFileContent")
+                .hasNoNullFieldsOrProperties();
+    }
+
+    @Test
     void should_retrieveDockerComposeVersions() {
         //when
         List<DockerComposeVersionDefinition> versionDefinitionList = dockerComposeFilePort.retrieveDockerComposeVersions();
@@ -67,6 +87,6 @@ class DockerComposeFileCreateAdapterIT {
         //then
         assertThat(composeServiceDefinitionList)
                 .isNotEmpty()
-                .hasSize(38);
+                .hasSize(39);
     }
 }
