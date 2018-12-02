@@ -51,7 +51,7 @@
         </div>
         <form class="form-inline">
             <el-input placeholder="Type somethings" v-model="feedback">
-                <el-button slot="append" type="success" icon="el-icon-message">Send</el-button>
+                <el-button slot="append" type="success" icon="el-icon-message" @click="sendFeedback">Send</el-button>
             </el-input>
         </form>
     </nav>
