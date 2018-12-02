@@ -34,7 +34,15 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -96,17 +104,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-contract-maven-plugin</artifactId>-->
-                <!--<extensions>true</extensions>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash; Provide the base class for your auto-generated tests &ndash;&gt;-->
-                    <!--<baseClassForTests>com.aakkus.dockercomposeinitializr.contract.ComposeFileCreateBaseContract</baseClassForTests>-->
-                    <!--<generatedTestSourcesDir>src/test/java</generatedTestSourcesDir>-->
-                    <!--<nameSuffixForTests>ContractTest</nameSuffixForTests>-->
-                    <!--&lt;!&ndash;<testFramework>org.springframework.cloud.contract.verifier.config.TestFramework.JUNIT5</testFramework>&ndash;&gt;-->
-                    <!--<testMode>EXPLICIT</testMode>-->
-                <!--</configuration>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-contract-maven-plugin</artifactId>-->
+            <!--<extensions>true</extensions>-->
+            <!--<configuration>-->
+            <!--&lt;!&ndash; Provide the base class for your auto-generated tests &ndash;&gt;-->
+            <!--<baseClassForTests>com.aakkus.dockercomposeinitializr.contract.ComposeFileCreateBaseContract</baseClassForTests>-->
+            <!--<generatedTestSourcesDir>src/test/java</generatedTestSourcesDir>-->
+            <!--<nameSuffixForTests>ContractTest</nameSuffixForTests>-->
+            <!--&lt;!&ndash;<testFramework>org.springframework.cloud.contract.verifier.config.TestFramework.JUNIT5</testFramework>&ndash;&gt;-->
+            <!--<testMode>EXPLICIT</testMode>-->
+            <!--</configuration>-->
             <!--</plugin>-->
         </plugins>
     </build>
