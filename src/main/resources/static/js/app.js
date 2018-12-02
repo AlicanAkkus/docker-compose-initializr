@@ -23,26 +23,32 @@ window.onload = function (ev) {
             deleteService: function (service) {
                 this.selectedServices.splice(this.selectedServices.indexOf(service), 1);
             },
+            showNotification: function (title, message, type, position) {
+                this.$notify({
+                    title: title,
+                    message: message,
+                    type: type,
+                    position: position
+                });
+            },
+            download: function (response) {
+                var headers = response.headers;
+                var blob = new Blob([response.data], {type: headers['content-type']});
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "docker-compose.yml";
+                link.click();
+            },
             createDockerComposeFile: function () {
                 if(this.checkVersionIsSelectedAndLeastOneServiceSelected()){
                     this.createProgressDoesItContinue = true;
                     this.$http.post('/api/v1/docker-compose', { version: this.version, services: this.selectedServices })
                         .then(function (response) {
-                            var headers = response.headers;
-                            var blob = new Blob([response.data],{type:headers['content-type']});
-                            var link = document.createElement('a');
-                            link.href = window.URL.createObjectURL(blob);
-                            link.download = "docker-compose.yml";
-                            link.click();
+                            this.download(response);
+                            this.showNotification('Success', 'docker-compose.yml file successfully created :)', 'success', 'top-right');
 
                             this.selectedServices = [];
                             this.version = '';
-                            this.$notify({
-                                title: 'Success',
-                                message: 'docker-compose.yml file successfully created :)',
-                                type: 'success',
-                                position: 'bottom-right'
-                            });
                             this.createProgressDoesItContinue = false;
 
                             gtag('event', 'docker-compose-generate', { version: this.version, services: this.selectedServices });
@@ -50,6 +56,20 @@ window.onload = function (ev) {
                             console.error(error);
                             this.createProgressDoesItContinue = false;
                         }).bind(this);
+                }
+            },
+            sendFeedback: function(){
+                if(this.feedback !== ''){
+                    this.$http.post('/api/v1/feedback', this.feedback)
+                        .then(function (response){
+                            this.feedback = '';
+                            this.showNotification('Success', 'Feedback successfully send, thank you :)', 'success', 'top-right');
+                        }, function (error) {
+                            console.error(error);
+                            this.feedback = '';
+                        }).bind(this);
+                }else{
+                    this.showWarning("Please type somethings :)", 'info');
                 }
             },
             querySearch: function (queryString, cb) {
@@ -68,22 +88,20 @@ window.onload = function (ev) {
                     this.selectedServices.push(service.value);
                 }
             },
+            showWarning: function (message, type) {
+                this.$message({
+                    message: message,
+                    type: type
+                });
+            },
             checkVersionIsSelectedAndLeastOneServiceSelected: function () {
                 if(this.version === ''){
-                    this.$message({
-                        message: 'Please select docker compose version',
-                        type: 'warning'
-                    });
-
+                    this.showWarning('Please select docker compose version', 'warning');
                     return false;
                 }
 
                 if(this.selectedServices.length === 0){
-                    this.$message({
-                        message: 'Please select least one service',
-                        type: 'warning'
-                    });
-
+                    this.showWarning('Please select least one service', 'warning');
                     return false;
                 }
 

@@ -1,6 +1,19 @@
 spring:
   application:
     name: docker-compose-initializr
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail-username}
+    password: ${mail-password}
+    protocol: smtp
+    defaultEncoding: UTF-8
+    properties:
+      subject: ${mail-subject}
+      to: ${mail-to}
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
 
 docker:
   compose:
