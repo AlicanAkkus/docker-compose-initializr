@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,7 @@ public class FeedbackAdapter implements FeedbackPort {
 
     @Async
     @Override
+    @Retryable(backoff = @Backoff(value = 3000L))
     public void send(String feedback) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
@@ -34,6 +38,11 @@ public class FeedbackAdapter implements FeedbackPort {
         mailSender.send(simpleMailMessage);
 
         logger.info("Feedback sent: {}", simpleMailMessage);
+    }
+
+    @Recover
+    public void feedbackSendRecover(Exception e, String feedback) {
+        logger.error("An error occurred while sending feedback: {}, Exception: {}", feedback, e);
     }
 
     private String retrieveMailProperty(String property) {
