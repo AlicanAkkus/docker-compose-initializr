@@ -2,6 +2,7 @@ package com.aakkus.dockercomposeinitializr.infra.adapter;
 
 import com.aakkus.dockercomposeinitializr.domain.DockerComposeFilePort;
 import com.aakkus.dockercomposeinitializr.domain.model.*;
+import com.aakkus.dockercomposeinitializr.infra.adapter.model.DockerComposeService;
 import com.aakkus.dockercomposeinitializr.infra.config.DockerComposeConfiguration;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

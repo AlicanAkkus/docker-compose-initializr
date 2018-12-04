@@ -41,7 +41,7 @@ public class FeedbackAdapter implements FeedbackPort {
     }
 
     @Recover
-    public void feedbackSendRecover(Exception e, String feedback) {
+    private void feedbackSendRecover(Exception e, String feedback) {
         logger.error("An error occurred while sending feedback: {}, Exception: {}", feedback, e);
     }
 
