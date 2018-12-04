@@ -3,6 +3,30 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+
+    <!-- Search Engine -->
+    <meta name="description" content="Docker Compose file creator. Docker Composer.">
+    <meta name="image" content="http://www.dcomposer.io/images/docker.png">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="docker composer, docker-compose">
+    <meta itemprop="description" content="Docker Compose file creator. Docker Composer.">
+    <meta itemprop="image" content="http://www.dcomposer.io/images/docker.png">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="docker composer">
+    <meta name="twitter:description" content="Docker Compose file creator. Docker Composer.">
+    <meta name="twitter:site" content="@ComposerDocker">
+    <meta name="twitter:creator" content="@ComposerDocker">
+    <meta name="twitter:image:src" content="http://www.dcomposer.io/images/docker.png">
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="docker composer">
+    <meta name="og:description" content="Docker Compose file creator. Docker Composer.">
+    <meta name="og:image" content="http://www.dcomposer.io/images/docker.png">
+    <meta name="og:url" content="http://www.dcomposer.io">
+    <meta name="og:site_name" content="dcomposer.io">
+    <meta name="og:video" content="http://www.dcomposer.io/images/docker.png">
+    <meta name="og:type" content="website">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46119682-3"></script>
@@ -34,8 +58,7 @@
 
 <body>
 
-
-<div id="app">
+<div id="app" v-cloak>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
@@ -50,7 +73,7 @@
             </ul>
         </div>
         <form class="form-inline">
-            <el-input placeholder="Type somethings" v-model="feedback">
+            <el-input size="medium" placeholder="Type somethings..." v-model="feedback">
                 <el-button slot="append" type="success" icon="el-icon-message" @click="sendFeedback">Send</el-button>
             </el-input>
         </form>
@@ -111,13 +134,13 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="selectedServices.length > 0">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
                 <div class="d-flex justify-content-center">
                     <div class="p-2">
                         <hr/>
-                        <el-badge :value="selectedServices.length" v-if="selectedServices.length > 0" type="info">
+                        <el-badge :value="selectedServices.length" type="info">
                             <el-button size="small">Selected Services</el-button>
                         </el-badge>
                         <el-tag style="margin: 2px;" v-for="service in selectedServices" :key="service" type="success"
@@ -132,8 +155,8 @@
     </div>
     <footer class="footer">
         <div class="container text-center">
-            <span class="text-muted">dcomposer.io is powered by <a
-                    href="https://github.com/AlicanAkkus/docker-compose-initializr">Docker Compose Initializr</a> and <a
+            <span class="text-muted"><b>dcomposer.io</b> is powered by <a target="_blank"
+                    href="https://github.com/AlicanAkkus/docker-compose-initializr">Docker Compose Initializr</a> and <a target="_blank"
                     href="https://twitter.com/Alican_akkus">Alican Akkus</a></span>
         </div>
     </footer>

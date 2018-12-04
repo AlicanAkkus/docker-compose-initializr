@@ -1,4 +1,4 @@
-package com.aakkus.dockercomposeinitializr.domain.model;
+package com.aakkus.dockercomposeinitializr.infra.adapter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

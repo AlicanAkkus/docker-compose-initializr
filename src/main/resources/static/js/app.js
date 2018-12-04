@@ -10,7 +10,7 @@ window.onload = function (ev) {
             versions: [],
             defaultServices: []
         },
-        created: function(){
+        mounted: function(){
             this.$http.get("/api/v1/docker-compose")
                 .then(function(response){
                     this.versions = response.data.versions;

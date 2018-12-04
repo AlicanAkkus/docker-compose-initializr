@@ -53,3 +53,5 @@ body > .el-container {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+[v-cloak] { display: none; }
