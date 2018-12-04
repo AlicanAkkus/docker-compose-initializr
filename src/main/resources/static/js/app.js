@@ -32,8 +32,7 @@ window.onload = function (ev) {
                 });
             },
             download: function (response) {
-                var headers = response.headers;
-                var blob = new Blob([response.data], {type: headers['content-type']});
+                var blob = new Blob([response.data.composeFileContent]);
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = "docker-compose.yml";

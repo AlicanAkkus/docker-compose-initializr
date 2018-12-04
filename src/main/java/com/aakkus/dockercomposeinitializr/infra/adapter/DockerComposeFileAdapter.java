@@ -1,20 +1,22 @@
 package com.aakkus.dockercomposeinitializr.infra.adapter;
 
 import com.aakkus.dockercomposeinitializr.domain.DockerComposeFilePort;
-import com.aakkus.dockercomposeinitializr.domain.model.*;
+import com.aakkus.dockercomposeinitializr.domain.model.CreateDockerComposeFileCommand;
+import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeFile;
+import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeServiceDefinition;
+import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeVersionDefinition;
 import com.aakkus.dockercomposeinitializr.infra.adapter.model.DockerComposeService;
 import com.aakkus.dockercomposeinitializr.infra.config.DockerComposeConfiguration;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,11 +27,14 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
 
     private final ObjectMapper objectMapper;
     private final DockerComposeConfiguration dockerComposeConfiguration;
+    private final String containerNamePrefix;
 
-    public DockerComposeFileAdapter(DockerComposeConfiguration dockerComposeConfiguration) {
+    public DockerComposeFileAdapter(DockerComposeConfiguration dockerComposeConfiguration, @Value("${spring.application.name}") String containerNamePrefix) {
         this.objectMapper = new ObjectMapper(new YAMLFactory());
         this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        this.objectMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, false);
         this.dockerComposeConfiguration = dockerComposeConfiguration;
+        this.containerNamePrefix = containerNamePrefix.concat("-");
     }
 
     @Override
@@ -37,7 +42,7 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
         Map<String, DockerComposeService> serviceMap = createServiceMap(createDockerComposeFileCommand);
         DockerComposeVersionDefinition versionDefinition = createServiceDefinition(createDockerComposeFileCommand);
 
-        Map composeFileMap = Map.of("services", serviceMap, "version", versionDefinition.getVersion());
+        Map composeFileMap = Map.of("version", versionDefinition.getVersion(), "services", serviceMap);
         String composeFileContent = createDockerComposeFileContent(composeFileMap);
 
         logger.info("Docker compose file created successfully. Version: {} and Services: {}", versionDefinition.getVersion(), createDockerComposeFileCommand.getServices());
@@ -55,7 +60,10 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
 
     @Override
     public List<DockerComposeServiceDefinition> retrieveDockerComposeServices() {
-        return dockerComposeConfiguration.getServices();
+        return dockerComposeConfiguration.getServices()
+                .stream()
+                .sorted(Comparator.comparing(DockerComposeServiceDefinition::getName))
+                .collect(Collectors.toList());
     }
 
     private Map<String, DockerComposeService> createServiceMap(CreateDockerComposeFileCommand createDockerComposeFileCommand) {
@@ -80,7 +88,7 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
 
     private String createDockerComposeFileContent(Map map) {
         try {
-            return objectMapper.writeValueAsString(map);
+            return objectMapper.writeValueAsString(map).replaceFirst("---\\n","");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -90,7 +98,7 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
         return dockerComposeServiceDefinition
                 .map(definition -> DockerComposeService.builder()
                         .serviceName(definition.getName())
-                        .containerName(definition.getName())
+                        .containerName(containerNamePrefix.concat(definition.getName()))
                         .restart(definition.getRestartCondition())
                         .ports(definition.getPorts())
                         .image(definition.getImage())
