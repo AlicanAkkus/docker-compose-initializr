@@ -97,8 +97,8 @@ public class DockerComposeFileAdapter implements DockerComposeFilePort {
     private DockerComposeService convertToDockerComposeService(Optional<DockerComposeServiceDefinition> dockerComposeServiceDefinition) {
         return dockerComposeServiceDefinition
                 .map(definition -> DockerComposeService.builder()
-                        .serviceName(definition.getName())
-                        .containerName(containerNamePrefix.concat(definition.getName()))
+                        .serviceName(definition.getName().replaceAll("/", "-"))
+                        .containerName(containerNamePrefix.concat(definition.getName().replaceAll("/", "-")))
                         .restart(definition.getRestartCondition())
                         .ports(definition.getPorts())
                         .image(definition.getImage())

@@ -87,6 +87,6 @@ class DockerComposeFileCreateAdapterIT {
         //then
         assertThat(composeServiceDefinitionList)
                 .isNotEmpty()
-                .hasSize(39);
+                .hasSize(40);
     }
 }

@@ -128,7 +128,7 @@ docker:
           WORDPRESS_DB_NAME: name
       -
         name: 'elasticsearch'
-        image: 'elasticsearch:latest'
+        image: 'elasticsearch:6.5.1'
         restartCondition: 'on-failure'
         ports:
           - '9200:9200'
