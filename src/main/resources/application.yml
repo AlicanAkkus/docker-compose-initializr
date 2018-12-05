@@ -161,12 +161,6 @@ docker:
         ports:
           - '2368:2368'
       -
-        name: 'ghost'
-        image: 'ghost:latest'
-        restartCondition: 'on-failure'
-        ports:
-          - '2368:2368'
-      -
         name: 'kibana'
         image: 'kibana:latest'
         restartCondition: 'on-failure'
@@ -320,3 +314,27 @@ docker:
         restartCondition: 'on-failure'
         ports:
           - '8529:8529'
+      -
+        name: 'nextcloud'
+        image: 'nextcloud:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:80'
+      -
+        name: 'kong'
+        image: 'kong:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8000:8000'
+          - '8443:8443'
+          - '8001:8001'
+          - '8444:8444'
+        environment:
+          KONG_DATABASE: cassandra
+          KONG_CASSANDRA_CONTACT_POINTS: kong-database
+          KONG_PROXY_ACCESS_LOG: /dev/stdout
+          KONG_ADMIN_ACCESS_LOG: /dev/stdout
+          KONG_PROXY_ERROR_LOG: /dev/stderr
+          KONG_ADMIN_ERROR_LOG: /dev/stderr
+          KONG_ADMIN_LISTEN: 0.0.0.0:8001
+          KONG_ADMIN_LISTEN_SSL: 0.0.0.0:8444
