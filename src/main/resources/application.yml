@@ -121,7 +121,7 @@ docker:
         restartCondition: 'on-failure'
         ports:
           - '8080:80'
-        environment:
+        environments:
           WORDPRESS_DB_HOST: db
           WORDPRESS_DB_USER: user
           WORDPRESS_DB_PASSWORD: password
@@ -133,7 +133,7 @@ docker:
         ports:
           - '9200:9200'
           - '9300:9300'
-        environment:
+        environments:
           DISCOVERY_TYPE: single-node
       -
         name: 'influxdb'
@@ -192,7 +192,7 @@ docker:
           - '7199:7199'
           - '9042:9042'
           - '9160:9160'
-        environment:
+        environments:
           SONARQUBE_JDBC_USERNAME: sonar
           SONARQUBE_JDBC_PASSWORD: sonar
           SONARQUBE_JDBC_URL: jdbc:postgresql://localhost/sonar
@@ -202,7 +202,7 @@ docker:
         restartCondition: 'on-failure'
         ports:
           - '8200:8200'
-        environment:
+        environments:
           VAULT_ADDR: http://127.0.0.1:8200
       -
         name: 'neo4j'
@@ -257,7 +257,7 @@ docker:
         restartCondition: 'on-failure'
         ports:
           - '8080:80'
-        environment:
+        environments:
           JOOMLA_DB_HOST: joomladb
           JOOMLA_DB_PASSWORD: password
       -
@@ -304,7 +304,7 @@ docker:
         restartCondition: 'on-failure'
         ports:
           - '8069:8069'
-        environment:
+        environments:
           HOST: odoodb
           USER: odoo
           PASSWORD: password
@@ -329,7 +329,7 @@ docker:
           - '8443:8443'
           - '8001:8001'
           - '8444:8444'
-        environment:
+        environments:
           KONG_DATABASE: cassandra
           KONG_CASSANDRA_CONTACT_POINTS: kong-database
           KONG_PROXY_ACCESS_LOG: /dev/stdout
@@ -338,3 +338,17 @@ docker:
           KONG_ADMIN_ERROR_LOG: /dev/stderr
           KONG_ADMIN_LISTEN: 0.0.0.0:8001
           KONG_ADMIN_LISTEN_SSL: 0.0.0.0:8444
+      -
+        name: 'hazelcast'
+        image: 'hazelcast/hazelcast:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '5701:5701'
+        environments:
+          JAVA_OPTS: '-Dhazelcast.local.publicAddress=CHANGE_THIS_WITH_HOST_IP:5701'
+      -
+        name: 'hazelcast-management-center'
+        image: 'hazelcast/management-center:latest'
+        restartCondition: 'on-failure'
+        ports:
+          - '8080:8080'

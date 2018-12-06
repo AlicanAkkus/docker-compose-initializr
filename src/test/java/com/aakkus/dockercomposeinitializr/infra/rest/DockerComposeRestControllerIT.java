@@ -29,7 +29,7 @@ class DockerComposeRestControllerIT {
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getBody()).isNotNull();
         assertThat(responseEntity.getBody().getVersions()).hasSize(5);
-        assertThat(responseEntity.getBody().getServices()).hasSize(40);
+        assertThat(responseEntity.getBody().getServices()).hasSize(42);
     }
 
     @Test
