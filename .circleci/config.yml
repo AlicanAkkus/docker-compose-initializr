@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk-sid-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Run Tests
+          command: ./mvnw clean install -Dit
