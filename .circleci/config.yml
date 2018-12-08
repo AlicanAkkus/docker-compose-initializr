@@ -8,3 +8,11 @@ jobs:
       - run:
           name: Run Tests
           command: ./mvnw clean install -Dit
+      - store_artifacts:
+          path: target/docker-compose-initializr-0.0.1-SNAPSHOT.jar
+      - run:
+          name: Docker Image Build and Push
+          command: |
+            docker build -t aakkus/docker-compose-initializr:latest .
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push aakkus/docker-compose-initializr:latest
