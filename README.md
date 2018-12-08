@@ -5,4 +5,4 @@ You can define your docker compose file. You can select few official images or t
 
 ## License
 Docker Compose Initializr is Open Source software released under the
-http://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 license].
+[Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html)
