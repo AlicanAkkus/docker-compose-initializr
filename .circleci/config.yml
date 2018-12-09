@@ -13,6 +13,9 @@ jobs:
   push:
     docker:
       - image: docker:17.05.0-ce-git
+    branches:
+      only:
+        - master
     steps:
       - run:
           name: Docker Image Build and Push
