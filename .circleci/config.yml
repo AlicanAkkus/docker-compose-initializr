@@ -12,11 +12,18 @@ jobs:
           path: target/docker-compose-initializr-0.0.1-SNAPSHOT.jar
   push:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: circleci/openjdk:11-jdk-sid-node-browsers
     branches:
       only:
         - master
     steps:
+      - run:
+          name: Run Tests
+          command: ./mvnw clean install -Dit
+      - store_artifacts:
+          path: target/docker-compose-initializr-0.0.1-SNAPSHOT.jar
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Docker Image Build and Push
           command: |
