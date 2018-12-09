@@ -10,6 +10,10 @@ jobs:
           command: ./mvnw clean install -Dit
       - store_artifacts:
           path: target/docker-compose-initializr-0.0.1-SNAPSHOT.jar
+  push:
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
       - run:
           name: Docker Image Build and Push
           command: |
