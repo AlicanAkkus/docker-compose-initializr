@@ -29,4 +29,4 @@ jobs:
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
+        args: push alicanakkus/docker-compose-initializr:${GITHUB_SHA}
