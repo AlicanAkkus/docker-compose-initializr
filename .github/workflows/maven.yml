@@ -24,9 +24,9 @@ jobs:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
     - name: Build image
       if: success()
-      run: docker build -t ${GITHUB_REPOSITORY}:${IMAGE_TAG} .
+      run: docker build -t ${tolower(GITHUB_REPOSITORY)}:${GITHUB_SHA:0-6} .
     - name: Push to docker registry
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push ${GITHUB_REPOSITORY}:${IMAGE_TAG}
+        args: push ${tolower(GITHUB_REPOSITORY)}:${GITHUB_SHA:0-6}
