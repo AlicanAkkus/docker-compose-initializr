@@ -22,8 +22,9 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_REGISTRY_URL: docker.pkg.github.com
-    - name: Build image
+    - name: Build Docker Image
       if: success()
       run: |
-         docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
-         docker push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
+        docker login docker.pkg.github.com -u alicanakkus -p ${{ secrets.TOKEN }}
+        docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
+        docker push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
