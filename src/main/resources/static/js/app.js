@@ -77,7 +77,7 @@ window.onload = function (ev) {
                 cb(results);
             },
             createFilter: function (queryString) {
-                return (service) =>{
+                return (service) => {
                     return (service.value.toLowerCase().includes(queryString.toLowerCase()) > 0);
                 }
             },
