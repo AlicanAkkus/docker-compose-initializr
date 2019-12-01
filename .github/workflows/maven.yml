@@ -22,6 +22,6 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_REGISTRY_URL: docker.pkg.github.com
-      run:
-        - docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
-        - push alicanakkus/docker-compose-initializr:${GITHUB_SHA}
+      run: |
+         docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
+         push alicanakkus/docker-compose-initializr:${GITHUB_SHA}
