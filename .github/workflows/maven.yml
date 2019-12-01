@@ -24,9 +24,9 @@ jobs:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
     - name: Build image
       if: success()
-      run: docker build -t aakkus/docker-compose-initializr:${GITHUB_SHA} .
+      run: docker build -t docker.pkg.github.com/aakkus/docker-compose-initializr:${GITHUB_SHA} .
     - name: Push to docker registry
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push aakkus/docker-compose-initializr:${GITHUB_SHA}
+        args: push docker.pkg.github.com/aakkus/docker-compose-initializr:${GITHUB_SHA}
