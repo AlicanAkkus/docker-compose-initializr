@@ -15,13 +15,6 @@ jobs:
         java-version: 1.11
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Login to docker hub
-      if: success()
-      uses: actions-hub/docker/login@master
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_REGISTRY_URL: docker.pkg.github.com
     - name: Build Docker Image
       if: success()
       run: |
