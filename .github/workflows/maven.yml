@@ -19,5 +19,5 @@ jobs:
       if: success()
       run: |
         docker login docker.pkg.github.com -u alicanakkus -p ${{ secrets.TOKEN }}
-        docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
-        docker push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
+        docker build -t alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
+        docker push alicanakkus/docker-compose-initializr:${GITHUB_SHA}
