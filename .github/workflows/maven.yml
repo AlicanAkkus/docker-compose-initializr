@@ -25,5 +25,5 @@ jobs:
     - name: Build image
       if: success()
       run: |
-        - docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
-        - docker push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
+         docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
+         docker push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
