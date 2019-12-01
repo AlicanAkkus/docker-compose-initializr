@@ -1,0 +1,13 @@
+name: Java CI
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+       with:
+          ref: ${GITHUB_REF}
+    - name: Build with Maven
+      run: mvn clean install -Dit
