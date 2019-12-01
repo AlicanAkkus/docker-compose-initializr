@@ -1,24 +1,30 @@
 package com.aakkus.dockercomposeinitializr.infra.rest;
 
-import com.aakkus.dockercomposeinitializr.IT;
 import com.aakkus.dockercomposeinitializr.domain.model.DockerComposeFile;
 import com.aakkus.dockercomposeinitializr.infra.rest.request.CreateDockerComposeFileRequest;
 import com.aakkus.dockercomposeinitializr.infra.rest.response.DockerComposeResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@IT
-class DockerComposeRestControllerIT {
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class DockerComposeRestControllerTest {
 
     @LocalServerPort
     private Integer port;
-    private TestRestTemplate testRestTemplate = new TestRestTemplate();
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
     @Test
     void should_retrieveDockerComposeMetadata() {
