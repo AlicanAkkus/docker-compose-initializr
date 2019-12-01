@@ -24,6 +24,6 @@ jobs:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
     - name: Build image
       if: success()
-      run:
+      run: |
         - docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
         - docker push docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA}
