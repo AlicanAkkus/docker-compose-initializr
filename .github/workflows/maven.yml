@@ -15,18 +15,13 @@ jobs:
         java-version: 1.11
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Login to docker hub
+    - name: Build Docker Image
       if: success()
       uses: actions-hub/docker/login@master
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_REGISTRY_URL: docker.pkg.github.com
-    - name: Build image
-      if: success()
-      run: docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
-    - name: Push to docker registry
-      if: success()
-      uses: actions-hub/docker@master
-      with:
-        args: push alicanakkus/docker-compose-initializr:${GITHUB_SHA}
+      run:
+        - docker build -t docker.pkg.github.com/alicanakkus/docker-compose-initializr:${GITHUB_SHA} .
+        - push alicanakkus/docker-compose-initializr:${GITHUB_SHA}
